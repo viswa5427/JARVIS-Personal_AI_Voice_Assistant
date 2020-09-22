@@ -91,10 +91,6 @@ def digital_assistant(data):
         if "how are you" in data: 
             respond("I am well")
             return
-        
-        elif "jarvis" in data:    
-            respond("Yes Sir!")
-            return
             
         elif "time" in data:      
             respond(ctime())
