@@ -5,6 +5,7 @@ import psutil
 import pyjokes
 import wikipedia
 import time
+import speedtest
 import requests, json
 from time import ctime
 from RespondListen import respond, listen
@@ -90,6 +91,10 @@ def digital_assistant(data):
     try:
         if "how are you" in data: 
             respond("I am well")
+            return
+        
+        elif "jarvis" in data:    
+            respond("Yes Sir!")
             return
             
         elif "time" in data:      
@@ -243,10 +248,28 @@ def digital_assistant(data):
                 return
             except:
                 return
+
         elif "create event" in data:
             create_event()
             return
             
+        elif "speed test" in data:
+            try:
+                respond("sure! wait a second to measure")
+                st = speedtest.Speedtest()
+                server_names = []
+                st.get_servers(server_names)
+                ping = st.results.ping
+                downlink_Mbps = round(st.download() / 1000000, 2)
+                uplink_Mbps = round(st.upload() / 1000000, 2)
+                respond('ping {} ms'.format(ping))
+                respond("The uplink is {} Mbps".format(uplink_Mbps))
+                respond("The downlink is {}Mbps".format(downlink_Mbps))
+                return
+            except:
+                respond ("I couldn't run a speedtest")     
+                return              
+
         else:
             respond("I can search the web for you,Do you want to continue?")
             opinion=listen()
@@ -267,4 +290,3 @@ def digital_assistant(data):
             return
         else:
             return
-
