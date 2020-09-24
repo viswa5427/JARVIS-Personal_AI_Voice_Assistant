@@ -56,12 +56,32 @@ def calendar():
 
 def create_event():
     service = calendar_service()
-    date = datetime.now().date()
-    tomorrow = datetime(date.year, date.month, date.day, 10)+timedelta(days = 1)
-    start = tomorrow.isoformat()
-    end = (tomorrow + timedelta(hours = 1)).isoformat()
+
     respond("summary of the event")
     summary = listen()
+
+    year = datetime.now().year
+    month = datetime.now().month
+
+    respond("event Date")
+    date_ = (listen()).split()
+    date = int(date_[1][0:2])
+
+    respond("event time")
+    event_time = listen().split()
+    hour = int(event_time[0][0:2])
+    minute = int(event_time[0][-2:])
+    if event_time[1][0] == "p":
+        hour = hour+12 
+    
+    respond("event duration")
+    event_duration = listen().split()
+    event_duration = int(event_duration[0])
+
+    start_day = datetime(year, month, date, hour, minute)
+    start = start_day.isoformat()
+    end = (start_day + timedelta(hours = event_duration)).isoformat()
+
     event = {
         'summary': summary,
         'start': {
