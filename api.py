@@ -54,30 +54,49 @@ def calendar():
         respond("{} class is at {} {}".format(event['summary'], event_time[0], event_date))
     return 
 
+
+def get_event_date():
+    try:
+        respond("event Date")
+        date_ = (listen()).split()
+        date = int(date_[1][0:2])
+        return date
+    except:
+        respond("Pardon me,please say that again")
+        get_event_date()
+
+def get_event_time():
+    try:
+        respond("event time")
+        event_time = listen().split()
+        hour = int(event_time[0][0:2])
+        minute = int(event_time[0][-2:])
+        if event_time[1][0] == "p":
+            hour = hour + 12 
+        return hour, minute
+    except:
+        respond("Pardon me,please say that again")
+        get_event_time()
+
+def get_event_duration():
+    try:
+        respond("event duration")
+        event_duration = listen().split()
+        event_duration = int(event_duration[0])
+        return event_duration
+    except:
+        respond("Pardon me, please say that again")
+        get_event_duration()
+
 def create_event():
     service = calendar_service()
-
     respond("summary of the event")
     summary = listen()
-
     year = datetime.now().year
     month = datetime.now().month
-
-    respond("event Date")
-    date_ = (listen()).split()
-    date = int(date_[1][0:2])
-
-    respond("event time")
-    event_time = listen().split()
-    hour = int(event_time[0][0:2])
-    minute = int(event_time[0][-2:])
-    if event_time[1][0] == "p":
-        hour = hour+12 
-    
-    respond("event duration")
-    event_duration = listen().split()
-    event_duration = int(event_duration[0])
-
+    date = get_event_date()
+    hour, minute = get_event_time()
+    event_duration = get_event_duration()
     start_day = datetime(year, month, date, hour, minute)
     start = start_day.isoformat()
     end = (start_day + timedelta(hours = event_duration)).isoformat()
