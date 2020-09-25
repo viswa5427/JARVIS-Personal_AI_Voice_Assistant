@@ -1,11 +1,9 @@
 import os
 import time
-from camera import face_rec
 from RespondListen import respond, listen
-from digital_assistant import digital_assistant, intiate_jarvis, pre_init   
+from digital_assistant import  init_check, intiate_jarvis, digital_assistant 
 if __name__=="__main__":
-    pre_init()
-    if face_rec():
+    if init_check():
         intiate_jarvis()
         while True:
             respond("Please tell me how can i help you?")
