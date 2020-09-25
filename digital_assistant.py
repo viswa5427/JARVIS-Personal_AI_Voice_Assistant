@@ -2,7 +2,6 @@ import datetime
 import os, random
 import webbrowser
 import psutil
-import pyjokes
 import wikipedia
 import time
 import speedtest
@@ -11,8 +10,8 @@ from time import ctime
 from RespondListen import respond, listen
 from googlesearch import search
 from ecapture import ecapture as ec
-from camera import New_access
-from api import calendar, create_event
+from camera import face_rec, New_access
+from Calendar import calendar_events, create_event
 import time
 from tictactoe import tic_tac_toe
 
@@ -24,10 +23,20 @@ webbrowser.register('chrome',
 
 
 
+def init_check():
+    if internet_availability():
+        pre_init()
+        if face_rec():
+            return True 
+        else:
+            return False
+    else:
+        return False
+
 def pre_init():
     respond("hi sir! You are activated Jarvis, But In orded to activate all the functions of Jarvis I have to recognize you sir ")
     respond("So, A facial recognition is under process, please wait!")
-    
+
 def intiate_jarvis():
     respond("checking remote servers!")
     respond("importing preferences and loading all the system drivers!")
@@ -47,7 +56,17 @@ def wishme():
         respond("Good Afternoon")
     else:
         respond("Good Evening")
-        
+
+def internet_availability():
+    try:
+        url = "http://google.com/"
+        timeout = 2
+        _ = requests.get(url, timeout = timeout)
+        return True
+    except:
+        respond("No internet connection!")
+        return False
+
 def access():
     respond("Are you confirm in access control transfer!")
     data = listen()
@@ -92,10 +111,6 @@ def digital_assistant(data):
         if "how are you" in data: 
             respond("I am well")
             return
-        
-        elif "jarvis" in data:    
-            respond("Yes Sir!")
-            return
             
         elif "time" in data:      
             respond(ctime())
@@ -109,10 +124,6 @@ def digital_assistant(data):
 
         elif "who made you" in data or "who created you" in data:
             respond("I was built by viswa")
-            return
-        
-        elif "joke" in data:
-            respond(pyjokes.get_joke)
             return
 
         elif "shutdown" in data:
@@ -239,7 +250,7 @@ def digital_assistant(data):
             return
 
         elif "upcoming events" in data or "scheduled events" in data or "events" in data:
-            events = calendar()
+            events = calendar_events()
             return
 
         elif "game" in data or "play" in data:
@@ -269,6 +280,13 @@ def digital_assistant(data):
             except:
                 respond ("I couldn't run a speedtest")     
                 return              
+        
+        elif "memory" in data:
+            process_id = os.getpid()
+            py = psutil.Process(process_id)
+            memory_use = round(py.memory_info()[0]/2. **30, 2)
+            respond("I use {} Gb of memory".format(memory_use))
+            return
 
         else:
             respond("I can search the web for you,Do you want to continue?")
@@ -290,3 +308,4 @@ def digital_assistant(data):
             return
         else:
             return
+
