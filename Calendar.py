@@ -35,7 +35,7 @@ def Get_Min_Max_times(now):
     Max = (datetime(date.year, date.month, date.day, 0)+timedelta(days = 2)).astimezone(IST)
     return Min.isoformat(), Max.isoformat()
 
-def calendar():
+def calendar_events():
     service = calendar_service()
     now = datetime.now(IST)
     timeMin, timeMax = Get_Min_Max_times(now)
