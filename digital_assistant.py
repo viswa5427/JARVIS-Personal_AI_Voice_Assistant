@@ -164,6 +164,10 @@ def digital_assistant(data):
             time.sleep(5)
             return
         
+        elif "notepad" in data:
+            os.system("notepad")
+            return
+
         elif "open" in data:
             data = data.split(" ")
             query = data[1]
@@ -173,7 +177,7 @@ def digital_assistant(data):
             respond(data[1] + " is open now")
             time.sleep(7)
             return
-        
+
         elif "news" in data:
             query = "news"
             url="https://timesofindia.indiatimes.com/home/headlines"
@@ -186,8 +190,10 @@ def digital_assistant(data):
             data=data.split(" ")
             api_key = "c046999b657d072a1dd2d413fd4dd156"
             base_url = "https://api.openweathermap.org/data/2.5/weather?"
-            respond("City name")
-            city_name = listen()
+            if "in" not in data:
+                city_name = "kurupam"
+            else:
+                city_name = data[-1]
             complete_url = base_url + "appid=" + api_key + "&q=" + city_name
             response = requests.get(complete_url)
             x = response.json()
@@ -197,7 +203,7 @@ def digital_assistant(data):
                 current_humidiy = y["humidity"]
                 z = x["weather"]
                 weather_description = z[0]["description"]
-                respond(" Temperature in kelvin unit is " +
+                respond(" Temperature in kelvin unit at " + city_name + " is " +
                       str(current_temperature) +
                       "\n humidity in percentage is " +
                       str(current_humidiy) +
@@ -286,6 +292,11 @@ def digital_assistant(data):
             py = psutil.Process(process_id)
             memory_use = round(py.memory_info()[0]/2. **30, 2)
             respond("I use {} Gb of memory".format(memory_use))
+            return
+        
+        elif "internet connection" in data or "internet" in data:
+            if internet_availability():
+                respond("Internet Connection is okay!")
             return
 
         else:
