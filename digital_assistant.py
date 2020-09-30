@@ -188,7 +188,8 @@ def digital_assistant(data):
                 
         elif "weather" in data:
             data=data.split(" ")
-            api_key = "c046999b657d072a1dd2d413fd4dd156"
+	    #create key: https://home.openweathermap.org/users/sign_in
+            api_key = ####################
             base_url = "https://api.openweathermap.org/data/2.5/weather?"
             if "in" not in data:
                 city_name = "kurupam"
