@@ -253,5 +253,3 @@ def tic_tac_toe():
 
         pg.display.update()
         CLOCK.tick(fps)
-#tic_tac_toe()
-
