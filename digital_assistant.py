@@ -297,7 +297,7 @@ def digital_assistant(data):
             create_event()
             return
             
-        elif "speed test" in data or "internet speed":
+        elif "speed test" in data or "internet speed" in data:
             try:
                 respond("sure! wait a second to measure")
                 st = speedtest.Speedtest()
