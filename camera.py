@@ -36,7 +36,7 @@ def findEncoding(images):
     return encodeList
 
 def face_rec():
-    path = "Images"
+    path = "Images/Access_members"
     images = []
     names = []
     mylist = os.listdir(path)
@@ -100,7 +100,7 @@ def New_access(name):
         if len(facesCurFrame)==1:  
             y1,x2,y2,x1=facesCurFrame[0][0],facesCurFrame[0][1],facesCurFrame[0][2],facesCurFrame[0][3]
             new_face=img[y1-40:y2+20, x1:x2]  
-            path="{}/{}{}".format("images",name,".jpg")
+            path="{}/{}/{}{}".format("Images","Access_members",name,".jpg")
             cv2.imwrite(path,new_face)
             cv2.rectangle(img,(x1,y1-40),(x2,y2+20),(0,255,0),2)
             cv2.imshow("webcam",img)
@@ -115,5 +115,3 @@ def New_access(name):
             respond("sorry sir! I couldn't recognize you")
         cv2.imshow("webcam",img)
         cv2.waitKey(1)
-
-
