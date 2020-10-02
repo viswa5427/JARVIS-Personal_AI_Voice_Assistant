@@ -5,6 +5,8 @@
 It is similar to Google Assistant and Siri. It works over user's voice commands. You can control your system with your voice commands.
 Jarvis can perform following actions:
 
+<img src="Jarvis.png" width=100% height=70%>
+
 ## Assistant skills:
 - **Face recognition**
 - **Opens a web page** (e.g 'jarvis open facebook or jarvis open fb')
