@@ -43,9 +43,9 @@ CLOCK = pg.time.Clock()
 #screen = pg.display.set_mode((width,height+100),0,32)
 #pg.display.set_caption("Tic Tac Toe")
 
-opening = pg.image.load('TTT\cover_page.png')
-x_img = pg.image.load('TTT\X.png')
-o_img = pg.image.load('TTT\O.png')
+opening = pg.image.load('Images\TTT\cover_page.png')
+x_img = pg.image.load('Images\TTT\X.png')
+o_img = pg.image.load('Images\TTT\O.png')
 
 x_img = pg.transform.scale(x_img, (80,80))
 o_img = pg.transform.scale(o_img, (80,80))
