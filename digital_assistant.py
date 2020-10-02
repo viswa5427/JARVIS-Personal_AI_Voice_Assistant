@@ -93,7 +93,7 @@ def internet_availability():
 def access():
     respond("Are you confirm in access control transfer!")
     data = listen()
-    if data=="confirm":
+    if "confirm" in data or "yes" in data or "yeah" in data:
         respond("could you please say the name of  the person of whom you are going to give access")
         name = listen()
         respond("okay")
@@ -135,6 +135,10 @@ def digital_assistant(data):
             respond("I am well")
             return
             
+        elif data == "jarvis":
+            respond("yes sir!")
+            return
+
         elif "time" in data:      
             respond(ctime())
             return
@@ -211,8 +215,7 @@ def digital_assistant(data):
                 
         elif "weather" in data:
             data=data.split(" ")
-	    #create key: https://home.openweathermap.org/users/sign_in
-            api_key = ####################
+            api_key = "c046999b657d072a1dd2d413fd4dd156"
             base_url = "https://api.openweathermap.org/data/2.5/weather?"
             if "in" not in data:
                 city_name = "kurupam"
@@ -294,7 +297,7 @@ def digital_assistant(data):
             create_event()
             return
             
-        elif "speed test" in data:
+        elif "speed test" in data or "internet speed":
             try:
                 respond("sure! wait a second to measure")
                 st = speedtest.Speedtest()
@@ -318,9 +321,13 @@ def digital_assistant(data):
             respond("I use {} Gb of memory".format(memory_use))
             return
         
-        elif "internet connection" in data or "internet" in data:
+        elif "internet connection" in data or "connection" in data:
             if internet_availability():
                 respond("Internet Connection is okay!")
+            return
+
+        elif "wait" in data:
+            time.sleep(10)
             return
 
         else:
@@ -343,4 +350,5 @@ def digital_assistant(data):
             return
         else:
             return
+
 
