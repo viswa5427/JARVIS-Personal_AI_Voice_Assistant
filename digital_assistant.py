@@ -20,7 +20,7 @@
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #SOFTWARE.
 
-
+import speech_recognition as sr
 import datetime
 import os, random
 import webbrowser
@@ -37,14 +37,21 @@ from camera import face_rec, New_access
 from Calendar import calendar_events, create_event
 import time
 from tictactoe import tic_tac_toe
+import smtplib
 
 
 webbrowser.register('chrome',
 	            None,
 	            webbrowser.BackgroundBrowser("C://Program Files (x86)//Google//Chrome//Application//chrome.exe"))
 
-
-
+# to use this first enable less secure app setting in your gmail
+def sendEmail(to, content):
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+    server.login('email address', 'password')
+    server.sendmail('your email address', to, content)
+    server.close()
 
 def init_check():
     if internet_availability():
@@ -55,6 +62,27 @@ def init_check():
             return False
     else:
         return False
+
+def takeCommand():
+    # It takes microphone input from the user and returns string output
+
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Listening...")
+        r.pause_threshold = 1
+        audio = r.listen(source)
+    try:
+        print("Recognizing...")
+        # Using google for voice recognition.
+        query = r.recognize_google(audio, language='en-in')
+        print(f"User said: {query}\n")  # User query will be printed.
+
+    except Exception as e:
+        # print(e)
+        # Say that again will be printed in case of improper voice
+        print("Say that again please...")
+        return "None"  # None string will be returned
+    return query
 
 def pre_init():
     respond("hi sir! You are activated Jarvis, But In orded to activate all the functions of Jarvis I have to recognize you sir ")
@@ -322,6 +350,18 @@ def digital_assistant(data):
             if internet_availability():
                 respond("Internet Connection is okay!")
             return
+       elif 'email to' in data:
+            try:
+                respond("Sir, give me your message")
+                print('Give message.......')
+                content = takeCommand()
+                to = "receiver email address"
+                sendEmail(to, content)
+                print('Sending mail........')
+                respond("Email has been sent!")
+            except Exception as e:
+                print(e)
+                respond("Sorry master . I am not able to send this email")
 
         else:
             respond("I can search the web for you,Do you want to continue?")
