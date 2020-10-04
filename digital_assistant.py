@@ -29,13 +29,13 @@ import wikipedia
 import time
 import speedtest
 import requests, json
+import pyautogui 
 from time import ctime
 from RespondListen import respond, listen
 from googlesearch import search
 from ecapture import ecapture as ec
 from camera import face_rec, New_access
 from Calendar import calendar_events, create_event
-import time
 from tictactoe import tic_tac_toe
 
 
@@ -328,9 +328,20 @@ def digital_assistant(data):
             return
 
         elif "wait" in data:
+	    respond("okay sir!")
             time.sleep(10)
             return
-
+        
+	elif "screenshot" in data:
+            Screenshot = pyautogui.screenshot()
+            dir = "C:\\Users\VISWANADH\Pictures\Screenshots"
+            length = len(os.listdir(dir))
+            Screenshot_name = "Screenshot({}).png".format(length)
+            path = os.path.join(dir,Screenshot_name)
+            Screenshot.save(path)
+            respond("Screenshot saved Successfully!")
+            return
+	
         else:
             respond("I can search the web for you,Do you want to continue?")
             opinion=listen()
