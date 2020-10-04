@@ -26,7 +26,7 @@ import speech_recognition as sr
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
-engine.setProperty('voice','voices[0].id')
+engine.setProperty('voice',voices[0].id)
 
 def respond(audioString):
     print(audioString)
