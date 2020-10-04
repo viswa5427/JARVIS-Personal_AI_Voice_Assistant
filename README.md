@@ -31,5 +31,6 @@ Jarvis can perform following actions:
 - **Tells the C.P.U status** (e.g 'jarvis tell me cpu status')
 - **Takes photo(through webcam)** (e.g 'jarvis take a photo')
 - **Takes video(throuh webcam)** (e.g 'jarvis take a video')
+- **Takes Screenshot** (e.g 'jarvis take a screenshot')
 - **Can restart the system** (e.g 'jarvis restart the system')
 - **Give jarvis access to someone** you can give access to some new people (e.g 'jarvis give access to SaiPavan') 
