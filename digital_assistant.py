@@ -30,6 +30,7 @@ import time
 import speedtest
 import requests, json
 import pyautogui 
+import control_keys
 from time import ctime
 from RespondListen import respond, listen
 from googlesearch import search
@@ -37,6 +38,7 @@ from ecapture import ecapture as ec
 from camera import face_rec, New_access
 from Calendar import calendar_events, create_event
 from tictactoe import tic_tac_toe
+from control_keys import Tab_Opt, Win_Opt
 
 
 webbrowser.register('chrome',
@@ -196,13 +198,18 @@ def digital_assistant(data):
             return
 
         elif "open" in data:
-            data = data.split(" ")
-            query = data[1]
-            for j in search(query, tld='com', lang='en', num=1, start=0, stop=1, pause=2.0):
-                url=j
-            webbrowser.get('chrome').open_new(url)
-            respond(data[1] + " is open now")
-            time.sleep(7)
+	    if "tab" in data:
+                Tab_Opt(data)
+            elif "window" in data:
+                Win_Opt(data)
+            else:
+                data = data.split(" ")
+                query = data[1]
+                for j in search(query, tld='com', lang='en', num=1, start=0, stop=1, pause=2.0):
+                    url=j
+                webbrowser.get('chrome').open_new(url)
+                respond(data[1] + " is open now")
+                time.sleep(7)
             return
 
         elif "news" in data:
@@ -342,7 +349,15 @@ def digital_assistant(data):
             respond("Screenshot saved Successfully!")
             return
 	
-        else:
+	elif "tab" in data:
+            Tab_Opt(data)
+            return
+        
+        elif "window" in data:
+            Win_Opt(data)
+            return
+	
+	else:
             respond("I can search the web for you,Do you want to continue?")
             opinion=listen()
             if opinion=="yes":
