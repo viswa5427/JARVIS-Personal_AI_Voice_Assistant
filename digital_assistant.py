@@ -29,7 +29,7 @@ import wikipedia
 import time
 import speedtest
 import requests, json
-import pyautogui 
+import pyautogui
 import control_keys
 from time import ctime
 from RespondListen import respond, listen
@@ -38,8 +38,7 @@ from ecapture import ecapture as ec
 from camera import face_rec, New_access
 from Calendar import calendar_events, create_event
 from tictactoe import tic_tac_toe
-from control_keys import Tab_Opt, Win_Opt
-
+from control_keys import Tab_Opt, Win_Opt, Ctrl_Keys
 
 webbrowser.register('chrome',
 	            None,
@@ -81,6 +80,12 @@ def wishme():
         respond("Good Afternoon")
     else:
         respond("Good Evening")
+
+def contain(data,words):
+    for word in words:
+        if word in data:
+            return True
+    return False
 
 def internet_availability():
     try:
@@ -137,7 +142,7 @@ def digital_assistant(data):
             respond("I am well")
             return
             
-        elif data == "jarvis":
+        elif data == "jarvis" or data == "Sara":
             respond("yes sir!")
             return
 
@@ -197,11 +202,17 @@ def digital_assistant(data):
             os.system("notepad")
             return
 
+        elif contain(data,['select all','cut','copy','paste','history','download','undo','redo','save','enter','search','find']):
+            Ctrl_Keys(data)
+            return
+
         elif "open" in data:
-	    if "tab" in data:
+            if "tab" in data:
                 Tab_Opt(data)
             elif "window" in data:
                 Win_Opt(data)
+            elif "chrome" in data:
+                webbrowser.open("http://www.google.com/")
             else:
                 data = data.split(" ")
                 query = data[1]
@@ -222,7 +233,7 @@ def digital_assistant(data):
                 
         elif "weather" in data:
             data=data.split(" ")
-	    #create key: https://home.openweathermap.org/users/sign_in
+            #create key: https://home.openweathermap.org/users/sign_in
             api_key = ####################
             base_url = "https://api.openweathermap.org/data/2.5/weather?"
             if "in" not in data:
@@ -335,11 +346,11 @@ def digital_assistant(data):
             return
 
         elif "wait" in data:
-	    respond("okay sir!")
+            respond("okay sir")
             time.sleep(10)
             return
         
-	elif "screenshot" in data:
+        elif "screenshot" in data:
             Screenshot = pyautogui.screenshot()
             dir = "C:\\Users\VISWANADH\Pictures\Screenshots"
             length = len(os.listdir(dir))
@@ -348,16 +359,16 @@ def digital_assistant(data):
             Screenshot.save(path)
             respond("Screenshot saved Successfully!")
             return
-	
-	elif "tab" in data:
+
+        elif "tab" in data:
             Tab_Opt(data)
             return
         
         elif "window" in data:
             Win_Opt(data)
             return
-	
-	else:
+
+        else:
             respond("I can search the web for you,Do you want to continue?")
             opinion=listen()
             if opinion=="yes":
@@ -377,5 +388,4 @@ def digital_assistant(data):
             return
         else:
             return
-
 
