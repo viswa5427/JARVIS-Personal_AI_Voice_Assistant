@@ -40,6 +40,8 @@ from Calendar import calendar_events, create_event
 from tictactoe import tic_tac_toe
 from control_keys import Tab_Opt, Win_Opt, Ctrl_Keys
 
+keys=control_keys.General_keys()
+
 webbrowser.register('chrome',
 	            None,
 	            webbrowser.BackgroundBrowser("C://Program Files (x86)//Google//Chrome//Application//chrome.exe"))
@@ -142,7 +144,7 @@ def digital_assistant(data):
             respond("I am well")
             return
             
-        elif data == "jarvis" or data == "Sara":
+        elif data == "jarvis":
             respond("yes sir!")
             return
 
@@ -209,10 +211,21 @@ def digital_assistant(data):
         elif "open" in data:
             if "tab" in data:
                 Tab_Opt(data)
+		time.sleep(10)
+                respond("what do you wanna search sir!")
+                data = listen()
+                pyautogui.typewrite(data)
+                keys.Enter()
             elif "window" in data:
                 Win_Opt(data)
             elif "chrome" in data:
+		time.sleep(3)
                 webbrowser.open("http://www.google.com/")
+                time.sleep(10)
+                respond("what do you wanna search sir!")
+                data = listen()
+                pyautogui.typewrite(data)
+                keys.Enter()
             else:
                 data = data.split(" ")
                 query = data[1]
@@ -346,7 +359,7 @@ def digital_assistant(data):
             return
 
         elif "wait" in data:
-            respond("okay sir")
+            respond("okay sir!")
             time.sleep(10)
             return
         
