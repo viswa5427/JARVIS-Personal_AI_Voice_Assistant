@@ -33,12 +33,15 @@ class General_keys:
 
     def Cut(self):
         pyautogui.hotkey('ctrl','x')
+        time.sleep(1)
 
     def Copy(self):
         pyautogui.hotkey('ctrl','c')
+        time.sleep(1)
 
     def Paste(self):
         pyautogui.hotkey('ctrl','v')
+        time.sleep(1)
         
     def History(self):
         pyautogui.hotkey('ctrl','h')
