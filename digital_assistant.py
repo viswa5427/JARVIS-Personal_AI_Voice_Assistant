@@ -214,7 +214,10 @@ def digital_assistant(data):
 		time.sleep(10)
                 respond("what do you wanna search sir!")
                 data = listen()
-                pyautogui.typewrite(data)
+                if "paste" in data:
+                    keys.Paste()
+                else:
+                    pyautogui.typewrite(data)
                 keys.Enter()
             elif "window" in data:
                 Win_Opt(data)
@@ -224,7 +227,10 @@ def digital_assistant(data):
                 time.sleep(10)
                 respond("what do you wanna search sir!")
                 data = listen()
-                pyautogui.typewrite(data)
+                if "paste" in data:
+                    keys.Paste()
+                else:
+                    pyautogui.typewrite(data)
                 keys.Enter()
             else:
                 data = data.split(" ")
