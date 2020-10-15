@@ -21,10 +21,11 @@
 #SOFTWARE.
 
 
+
 import os
 import time
 from RespondListen import respond, listen
-from digital_assistant import  init_check, intiate_jarvis, digital_assistant 
+from digital_assistant import  init_check, intiate_jarvis, digital_assistant, contain 
 if __name__=="__main__":
     if init_check():
         intiate_jarvis()
@@ -33,9 +34,9 @@ if __name__=="__main__":
             data = listen().lower()
             if data == 0:
                 continue
-            if "stop listening" in data or "ok bye" in data or "stop" in data or "exit" in data:
+            if contain(data,["turn off","stop","exit","bye"]):
                 os.system("taskkill /f /im Rainmeter.exe")
-                respond("I am going to sleep sir")
+                respond("I am going to sleep sir, Have a nice day!")
                 break
-            digital_assistant(data)          
-            time.sleep(2)
+            digital_assistant(data)     
+            time.sleep(2)     
