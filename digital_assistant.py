@@ -24,7 +24,6 @@
 import datetime
 import os, random
 import webbrowser
-import psutil
 import wikipedia
 import time
 import speedtest
@@ -39,6 +38,7 @@ from camera import face_rec, New_access
 from Calendar import calendar_events, create_event
 from tictactoe import tic_tac_toe
 from control_keys import Tab_Opt, Win_Opt, Ctrl_Keys
+from system_specs import System_specs
 
 keys=control_keys.General_keys()
 
@@ -135,7 +135,7 @@ def execute_commands():
             respond(speech)
             digital_assistant(instruct)       
     except:
-        respond("sorry sir, I think there is a error in your code")
+        respond("sorry sir, there is an error occurred. Could you plese repeat commands to do!")
     return
 
 def digital_assistant(data):
@@ -178,15 +178,6 @@ def digital_assistant(data):
                 os.system("shutdown /r /t 1")
                 return
         
-        elif "battery" in data:
-            battery=psutil.sensors_battery()
-            respond("Your system is at " + str(battery.percent) + " percent")
-            return
-
-        elif "cpu" in data:
-            respond("CPU is at "+ str(psutil.cpu_percent()))
-            return
-
         elif "music" in data:
             respond("Here you go with music")
             music_dir = "C:\\Users\\VISWANADH\\Music"
@@ -211,7 +202,7 @@ def digital_assistant(data):
         elif "open" in data:
             if "tab" in data:
                 Tab_Opt(data)
-		time.sleep(10)
+                time.sleep(10)
                 respond("what do you wanna search sir!")
                 data = listen()
                 if "paste" in data:
@@ -222,9 +213,8 @@ def digital_assistant(data):
             elif "window" in data:
                 Win_Opt(data)
             elif "chrome" in data:
-		time.sleep(3)
                 webbrowser.open("http://www.google.com/")
-                time.sleep(10)
+                time.sleep(3)
                 respond("what do you wanna search sir!")
                 data = listen()
                 if "paste" in data:
@@ -253,7 +243,7 @@ def digital_assistant(data):
         elif "weather" in data:
             data=data.split(" ")
             #create key: https://home.openweathermap.org/users/sign_in
-            api_key = ####################
+            api_key = "################################"
             base_url = "https://api.openweathermap.org/data/2.5/weather?"
             if "in" not in data:
                 city_name = "kurupam"
@@ -351,14 +341,7 @@ def digital_assistant(data):
             except:
                 respond ("I couldn't run a speedtest")     
                 return              
-        
-        elif "memory" in data:
-            process_id = os.getpid()
-            py = psutil.Process(process_id)
-            memory_use = round(py.memory_info()[0]/2. **30, 2)
-            respond("I use {} Gb of memory".format(memory_use))
-            return
-        
+               
         elif "internet connection" in data or "connection" in data:
             if internet_availability():
                 respond("Internet Connection is okay!")
@@ -386,6 +369,10 @@ def digital_assistant(data):
         elif "window" in data:
             Win_Opt(data)
             return
+        
+        elif contain(data,["battery","cpu","memory","brightness"]):
+            System_specs(data)
+            return
 
         else:
             respond("I can search the web for you,Do you want to continue?")
@@ -407,4 +394,3 @@ def digital_assistant(data):
             return
         else:
             return
-
