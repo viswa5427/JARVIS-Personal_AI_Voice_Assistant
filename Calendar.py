@@ -91,9 +91,10 @@ def get_event_date():
 def get_event_time():
     try:
         respond("event time")
-        event_time = listen().split()
-        hour = int(event_time[0][0:2])
-        minute = int(event_time[0][-2:])
+        event_time = listen().split(" ")
+        hour_min = event_time[0].split(":")
+        hour = int(hour_min[0])
+        minute = int(hour_min[1])
         if event_time[1][0] == "p":
             hour = hour + 12 
         return hour, minute
