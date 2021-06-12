@@ -139,26 +139,22 @@ def execute_commands():
     return
 
 def digital_assistant(data):
-    try:
-        if "how are you" in data: 
-            respond("I am well")
+    try:   
+        if data == "jarvis":
+            respond("yes sir! I am at your service")
             return
             
-        elif data == "jarvis":
-            respond("yes sir!")
+        elif "how are you" in data: 
+            respond("I am well")
             return
 
-        elif "time" in data:      
-            respond(ctime())
-            return
-
-        elif "who are you" in data or "what can you do" in data or "define yourself" in data:
+        elif contain(data,["define yourself","what can you do","who are you"]):
             respond("I am viswanadh's personal assistant, I am programmed to do minor tasks like system monitoring, profiling,"
             "predict time, take a photo, predict weather,"
             " opening applications like youtube, google chrome ,gmail etcetre, show the top headline news and you can ask me computational or geographical questions too!")
             return
-
-        elif "who made you" in data or "who created you" in data:
+        
+        elif contain(data,["who made you","who created you"]):
             respond("I was built by viswa")
             return
 
@@ -177,7 +173,7 @@ def digital_assistant(data):
             if data=="yes":
                 os.system("shutdown /r /t 1")
                 return
-        
+
         elif "music" in data:
             respond("Here you go with music")
             music_dir = "C:\\Users\\VISWANADH\\Music"
@@ -205,7 +201,7 @@ def digital_assistant(data):
                 time.sleep(10)
                 respond("what do you wanna search sir!")
                 data = listen()
-                if "paste" in data:
+                if "search" in data:
                     keys.Paste()
                 else:
                     pyautogui.typewrite(data)
@@ -213,11 +209,12 @@ def digital_assistant(data):
             elif "window" in data:
                 Win_Opt(data)
             elif "chrome" in data:
-                webbrowser.open("http://www.google.com/")
                 time.sleep(3)
+                webbrowser.open("http://www.google.com/")
+                time.sleep(10)
                 respond("what do you wanna search sir!")
                 data = listen()
-                if "paste" in data:
+                if "search" in data:
                     keys.Paste()
                 else:
                     pyautogui.typewrite(data)
@@ -242,8 +239,7 @@ def digital_assistant(data):
                 
         elif "weather" in data:
             data=data.split(" ")
-            #create key: https://home.openweathermap.org/users/sign_in
-            api_key = "################################"
+            api_key = "###############################"
             base_url = "https://api.openweathermap.org/data/2.5/weather?"
             if "in" not in data:
                 city_name = "kurupam"
@@ -271,17 +267,21 @@ def digital_assistant(data):
         
         elif "something" in data:
             respond("Searching...")
-            data=data[22:]
-            data =  "According to wikipedia " + wikipedia.summary(data, sentences=4) 
+            data=data.split(" ")
+            data = data[3:]
+            Req_data = ""
+            for word in data:
+                Req_data = Req_data + " " + word
+            data =  "According to wikipedia " + wikipedia.summary(Req_data, sentences=4) 
             respond(data)
             return
 
-        elif "capture the photo" in data or "take a photo" in data:
+        elif contain(data,["take a photo","capture the photo"]):
             ec.capture(0,False,"img.jpg")
             respond("photo captured successfully")
             return
 
-        elif "video" in data or "capture the video" in data:
+        elif contain(data,["video","record the video"]):
             ec.auto_vidcapture(0,False,"video.mkv",10)
             respond("video recorded successfully")
             return
@@ -301,7 +301,8 @@ def digital_assistant(data):
         elif "write a note" in data:
             respond("What should i write, sir!")
             data = listen()
-            file = open('note.txt', 'w')
+            file = open('note.txt', 'a')
+            file.write("\n"+ctime()+"\n")
             file.write(data)
             respond("noted successfully")
             return
@@ -310,11 +311,11 @@ def digital_assistant(data):
             execute_commands()
             return
 
-        elif "upcoming events" in data or "scheduled events" in data or "events" in data:
-            events = calendar_events()
+        elif contain(data,["upcoming events","scheduled events","events"]):
+            calendar_events()
             return
 
-        elif "game" in data or "play" in data:
+        elif contain(data,["game","play"]):
             try:
                 tic_tac_toe()
                 return
@@ -325,7 +326,7 @@ def digital_assistant(data):
             create_event()
             return
             
-        elif "speed test" in data or "internet speed" in data:
+        elif contain(data,["speed test","internet speed"]):
             try:
                 respond("sure! wait a second to measure")
                 st = speedtest.Speedtest()
@@ -341,14 +342,14 @@ def digital_assistant(data):
             except:
                 respond ("I couldn't run a speedtest")     
                 return              
-               
-        elif "internet connection" in data or "connection" in data:
+        
+        elif contain(data,["internet connection","connection"]):
             if internet_availability():
                 respond("Internet Connection is okay!")
             return
 
         elif "wait" in data:
-            respond("okay sir!")
+            respond("okay sir")
             time.sleep(10)
             return
         
@@ -370,8 +371,12 @@ def digital_assistant(data):
             Win_Opt(data)
             return
         
-        elif contain(data,["battery","cpu","memory","brightness"]):
+        elif contain(data,['battery', 'cpu', 'memory', 'brightness']):
             System_specs(data)
+            return
+
+        elif "time" in data:      
+            respond(ctime())
             return
 
         else:
